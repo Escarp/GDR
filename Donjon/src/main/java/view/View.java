@@ -247,13 +247,17 @@ public class View {
 			ImageIO.write( target , "png" , output ) ;
 		} 
 		catch( Exception e ) {
-			printMsgln( "CreateMap: Error: " + e.getMessage() ) ;
-			printMsg( "Stack: " ) ;
-			for( int i = 0 ; i < e.getStackTrace().length ; i++ ) {
-				printMsgln( "\t" + e.getStackTrace()[i] ) ;
-			}
+			printErr( "View: createMap" , e ) ;
 		}
 		
 		
+	}
+	
+	public static void printErr( String name , Exception e ){
+		printMsgln( name + ": Error: " + e.getMessage() ) ;
+		printMsg( "Stack: " ) ;
+		for( int i = 0 ; i < e.getStackTrace().length ; i++ ) {
+			printMsgln( "\t" + e.getStackTrace()[i] ) ;
+		}
 	}
 }

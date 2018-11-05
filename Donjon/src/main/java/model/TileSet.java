@@ -85,11 +85,7 @@ public class TileSet {
 			
 		}
 		catch( Exception e ) {
-			View.printMsgln( "loadTiles: Error: " + e.getMessage() ) ;
-			View.printMsg( "Stack: " ) ;
-			for( int i = 0 ; i < e.getStackTrace().length ; i++ ) {
-				View.printMsgln( "\t" + e.getStackTrace()[i] ) ;
-			}
+			View.printErr( "TileSet: loadTiles" , e ) ;
 			/*	XXX DEBUG XXX
 			View.printMsgln( "index: " + index ) ;
 			View.printMsgln( "x: " + x ) ;
