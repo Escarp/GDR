@@ -32,62 +32,6 @@ public class View {
 		}
 	}
 	
-	/* XXX DEBUG XXX
-	public void saveTilesetToImg( BufferedImage[] tiles ) {
-		if( tiles == null || tiles.length <= 0 ) {
-			printMsgln( "SaveFilesToImg: ERROR: No tiles loaded" ) ;
-			return ;
-		}
-		
-		try {
-			int tileWidth	= tiles[0].getWidth() ;
-			int tileHeight	= tiles[0].getHeight() ;
-			int max			= tiles.length ;
-			
-			int type = tiles[0].getType() ;
-			if( type == 0 ) {
-				type = 5 ;
-			}
-			
-			BufferedImage target = new BufferedImage( 
-					tileHeight * max , 
-					tileWidth * max , 
-					type ) ;
-			Graphics g = target.getGraphics() ;
-			
-			int index = 0 ;
-			
-			for( int i = 0 ; i < target.getWidth() / tileWidth ; i++ ) {
-				for( int j = 0 ; j < target.getHeight() / tileHeight ; j++ ) {
-					if( index < tiles.length ) {
-						g.drawImage( 
-								tiles[ index++ ] , 
-								i * tileWidth , 
-								j * tileHeight , 
-								null ) ;
-					}
-					else {
-						break ;
-					}
-				}
-			}
-			
-			File output = new File( "testImg/output.png" ) ;
-			
-			ImageIO.write( target , "png" , output ) ;
-			
-		} catch( Exception e ) {
-			printMsgln( "SaveFilesToImg: Error: " + e.getMessage() ) ;
-			printMsg( "Stack: " ) ;
-			for( int i = 0 ; i < e.getStackTrace().length ; i++ ) {
-				printMsgln( "\t" + e.getStackTrace()[i] ) ;
-			}
-		}
-		
-		
-	}
-	*/
-	
 	public void createMap( List<String[]> map , BufferedImage[] tiles ) {
 		if( tiles == null || tiles.length <= 0 ) {
 			printMsgln( "SaveFilesToImg: ERROR: No tiles loaded" ) ;

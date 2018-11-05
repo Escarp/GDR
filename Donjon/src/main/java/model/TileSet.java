@@ -86,10 +86,6 @@ public class TileSet {
 		}
 		catch( Exception e ) {
 			View.printErr( "TileSet: loadTiles" , e ) ;
-			/*	XXX DEBUG XXX
-			View.printMsgln( "index: " + index ) ;
-			View.printMsgln( "x: " + x ) ;
-			View.printMsgln( "y: " + y ) ;*/
 		}
 	}
 }
