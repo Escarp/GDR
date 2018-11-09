@@ -49,7 +49,7 @@ public class Main {
 							.setActionLabel( "Open" )
 							.build()
 							.showDialog( textGUI ) ;
-					View.printMsgln( input.toString() ) ;
+					//View.printMsgln( input.toString() ) ;
 					fileToConvert = input ;
 				}
 				
@@ -66,7 +66,7 @@ public class Main {
 							.setActionLabel( "Open" )
 							.build()
 							.showDialog( textGUI ) ;
-					View.printMsgln( input.toString() ) ;
+					//View.printMsgln( input.toString() ) ;
 					tileSet = input ;
 				}
 				
@@ -101,7 +101,7 @@ public class Main {
 								MessageDialog.showMessageDialog( 
 										textGUI , 
 										"Success!" , 
-										"Map created \n"
+										"Map created in: \n"
 										+ path , 
 										MessageDialogButton.OK ) ;
 							}
@@ -117,8 +117,8 @@ public class Main {
 						else{
 							MessageDialog.showMessageDialog( 
 									textGUI , 
-									"Oops!" , 
-									"Something went wrong" , 
+									"Error!" , 
+									"Conversion Failed!" , 
 									MessageDialogButton.OK ) ;
 						}
 					}
