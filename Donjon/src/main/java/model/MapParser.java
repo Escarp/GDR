@@ -10,15 +10,15 @@ import com.univocity.parsers.tsv.TsvParserSettings;
 import utils.MapConstants;
 
 public class MapParser {
-	private String path ;
+	private File file ;
 	private List<String[]> map ;
 	
-	public String getPath() {
-		return path;
+	public File getFile() {
+		return file;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	public List<String[]> getMap() {
@@ -29,8 +29,12 @@ public class MapParser {
 		this.map = map;
 	}
 
-	public MapParser( String path ) {
-		this.path = path ;
+	public MapParser(){
+		
+	}
+	
+	public MapParser( File file ) {
+		this.file = file ;
 		
 		loadFile() ;
 		
@@ -39,6 +43,22 @@ public class MapParser {
 		doubleUp() ;
 		
 		addWalls() ;
+	}
+	
+	public boolean convert() {
+		boolean success = false ;
+		
+		if( loadFile() ){
+			
+			toNormalChars() ;
+			
+			doubleUp() ;
+			
+			addWalls() ;
+			
+			success = true ;
+		}
+		return success ;
 	}
 	
 	private boolean checkVoidTile( String pos ) {
@@ -163,8 +183,9 @@ public class MapParser {
 		map = doubleMap ;
 	}
 	
-	private void loadFile() {
-		File mapFile = new File( "TSVs" + path ) ;
+	private boolean loadFile() {
+		File mapFile = file ;
+		boolean success = false ;
 		
 		if( !mapFile.exists() ) {
 			System.out.println( "file not found" );
@@ -173,7 +194,10 @@ public class MapParser {
 			TsvParserSettings settings = new TsvParserSettings() ;
 			TsvParser parser = new TsvParser( settings ) ;
 			map = parser.parseAll( mapFile ) ;
+			success = true ;
 		}
+		
+		return success ;
 	}
 	
 	private void toNormalChars() {

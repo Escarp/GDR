@@ -7,15 +7,15 @@ import javax.imageio.ImageIO;
 import view.View ;
 
 public class TileSet {
-	private String imagePath ;
+	private File imageFile ;
 	private BufferedImage image ;
 	private BufferedImage[] tiles ;
 	private int tileWidth ;
 	private int tileHeight ;
 	
 	//Getters
-	public String getImagePath() {
-		return imagePath;
+	public File getImageFile() {
+		return imageFile;
 	}
 	public BufferedImage getImage() {
 		return image;
@@ -31,8 +31,8 @@ public class TileSet {
 	}
 	
 	//Setters
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImageFile(File imageFile) {
+		this.imageFile = imageFile;
 	}
 	public void setImage(BufferedImage image) {
 		this.image = image;
@@ -51,10 +51,10 @@ public class TileSet {
 	public TileSet() {
 	}
 	
-	public TileSet( int tileWidth , int tileHeight , String imagePath ) {
+	public TileSet( int tileWidth , int tileHeight , File imageFile ) {
 		this.tileWidth	= tileWidth ;
 		this.tileHeight	= tileHeight ;
-		this.imagePath	= "testImg" + imagePath ;
+		this.imageFile	= imageFile ;
 		
 		loadTiles() ;
 	}
@@ -66,7 +66,7 @@ public class TileSet {
 		int x = 0 ;
 		
 		try {
-			image = ImageIO.read( new File( imagePath ) ) ;
+			image = ImageIO.read( imageFile ) ;
 			int imageWidth	= image.getWidth() ;
 			int imageHeight	= image.getHeight()	;
 			

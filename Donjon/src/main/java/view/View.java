@@ -32,10 +32,10 @@ public class View {
 		}
 	}
 	
-	public void createMap( List<String[]> map , BufferedImage[] tiles ) {
+	public static String createMap( List<String[]> map , BufferedImage[] tiles ) {
 		if( tiles == null || tiles.length <= 0 ) {
 			printMsgln( "SaveFilesToImg: ERROR: No tiles loaded" ) ;
-			return ;
+			return null ;
 		}
 		
 		int type 		= tiles[0].getType() ;
@@ -187,14 +187,15 @@ public class View {
 					}
 				}
 			}
-			File output = new File( "testImg/output.png" ) ;
+			File output = new File( "output.png" ) ;
 			ImageIO.write( target , "png" , output ) ;
+			
+			return output.getAbsolutePath() ;
 		} 
 		catch( Exception e ) {
 			printErr( "View: createMap" , e ) ;
 		}
-		
-		
+		return null ;
 	}
 	
 	public static void printErr( String name , Exception e ){
