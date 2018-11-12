@@ -1,9 +1,9 @@
 package control;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.gui2.BasicWindow;
@@ -13,6 +13,7 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
 import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder;
@@ -24,18 +25,20 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorPalette;
-
 import model.MapParser;
 import model.TileSet;
 import view.View;
 
 public class Main {
 	
-	static String artifact = null ;
-	static String version = null ;
+	static String artifact	= null ;
+	static String version	= null ;
 	
 	static File fileToConvert ;
 	static File tileSet ;
+	
+	static int tile_w = 32 ;
+	static int tile_h = 32 ;
 	
 	public static void startWindow(){
 		try{
@@ -56,7 +59,7 @@ public class Main {
 			//PANEL CONFIG
 			Panel panel = new Panel() ;
 			
-			//TITLE COMPONENT TODO:ADD VERSION CONTROL
+			//TITLE COMPONENT
 			panel.addComponent( new Label( "Welcome to " + artifact + " " 
 					+ version + " ! " ).setLayoutData( 
 							LinearLayout.createLayoutData( 
@@ -84,7 +87,6 @@ public class Main {
 							.setActionLabel( "Open" )
 							.build()
 							.showDialog( textGUI ) ;
-					//View.printMsgln( input.toString() ) ;
 					fileToConvert = input ;
 				}
 			}).setLayoutData( LinearLayout.createLayoutData( 
@@ -97,12 +99,79 @@ public class Main {
 				public void run() {
 					File input = new FileDialogBuilder()
 							.setTitle( "Open file" )
-							.setDescription( "Choose one of the files below" )
+							.setDescription( "Choose one of the files below"
+									+ "pixels tilesets ;)" )
 							.setActionLabel( "Open" )
 							.build()
 							.showDialog( textGUI ) ;
-					//View.printMsgln( input.toString() ) ;
 					tileSet = input ;
+				}
+			}).setLayoutData( LinearLayout.createLayoutData( 
+					LinearLayout.Alignment.Center ) ) ) ;
+			
+			//SET TILE DIMENSIONS
+			panel.addComponent( new Button( "Set tile dimensions" , 
+					new Runnable() {
+				@Override
+				public void run() {
+					BasicWindow window = new BasicWindow() ;
+					Panel panel = new Panel() ;
+					
+					window.setTitle( "Set tile dimensions" ) ;
+					
+					window.setHints( Arrays.asList( 
+							Window.Hint.CENTERED ) ) ;
+					
+					panel.addComponent( new Label( 
+							"Leave blank for default 32x32" ) ) ;
+					
+					panel.addComponent( new Label( "Tile width" )
+							.setLayoutData( LinearLayout.createLayoutData( 
+							LinearLayout.Alignment.Center ) ) ) ;
+					
+					final TextBox t_width = new TextBox()
+							.setValidationPattern( Pattern.compile( "[0-9]*" ) )
+							.setLayoutData( LinearLayout.createLayoutData( 
+									LinearLayout.Alignment.Center ) )
+							.addTo( panel ) ;
+					
+					panel.addComponent( new Label( "Tile height" )
+							.setLayoutData( LinearLayout.createLayoutData( 
+							LinearLayout.Alignment.Center ) ) ) ;
+					
+					final TextBox t_height = new TextBox()
+							.setValidationPattern( Pattern.compile( "[0-9]*" ) )
+							.setLayoutData( LinearLayout.createLayoutData( 
+									LinearLayout.Alignment.Center ) )
+							.addTo( panel ) ;
+					panel.addComponent( new Button( "Done" , 
+							new Runnable() {
+						@Override
+						public void run() {
+							if( t_width.getText() != null 
+									&& !t_width.getText().equals( "" ) ){
+								tile_w = Integer.parseInt( 
+										t_width.getText() ) ;
+							}
+							else{
+								tile_w = 32 ;
+							}
+							
+							if ( t_height.getText() != null 
+									&& !t_height.getText().equals( "" ) ) {
+								tile_h = Integer.parseInt( 
+										t_height.getText() ) ;
+							}
+							else{
+								tile_h = 32 ;
+							}
+							
+							window.close() ;
+						}
+					}).setLayoutData( LinearLayout.createLayoutData( 
+							LinearLayout.Alignment.End ) ) ) ;
+					window.setComponent( panel ) ;
+					textGUI.addWindowAndWait( window ) ;
 				}
 			}).setLayoutData( LinearLayout.createLayoutData( 
 					LinearLayout.Alignment.Center ) ) ) ;
@@ -118,15 +187,10 @@ public class Main {
 								"Error!" , 
 								"Choose a tileset and a file to convert!" , 
 								MessageDialogButton.OK ) ;
-//						if( fileToConvert == null ){
-//							View.printMsgln( "File null!" ) ;
-//						}
-//						if( tileSet == null ){
-//							View.printMsgln( "TileSet null!" ) ;
-//						}
 					}
 					else{
-						TileSet ts = new TileSet( 32 , 32 , tileSet ) ;
+							//Change
+						TileSet ts = new TileSet( tile_w , tile_h , tileSet ) ;
 						MapParser mp = new MapParser() ;
 						mp.setFile( fileToConvert ) ;
 						if( mp.convert() ) {
@@ -190,7 +254,8 @@ public class Main {
 					"project.properties" ) ) ;
 			artifact = properties.getProperty( "artifactId" ) ;
 			version = properties.getProperty( "version" ) ;
-		} catch (IOException e) {
+		}
+		catch ( Exception e ) {
 			View.printErr( "Main: main" , e ) ;
 		}
 		
