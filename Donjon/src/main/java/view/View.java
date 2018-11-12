@@ -198,8 +198,8 @@ public class View {
 		return null ;
 	}
 	
-	public static void printErr( String name , Exception e ){
-		printMsgln( name + ": Error: " + e.getMessage() ) ;
+	public static void printErr( String methodNameAndPath , Exception e ){
+		printMsgln( methodNameAndPath + ": Error: " + e.getMessage() ) ;
 		printMsg( "Stack: " ) ;
 		for( int i = 0 ; i < e.getStackTrace().length ; i++ ) {
 			printMsgln( "\t" + e.getStackTrace()[i] ) ;

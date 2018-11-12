@@ -2,9 +2,12 @@ package control;
 
 import java.io.File;
 import java.util.Arrays;
-
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Button;
+import com.googlecode.lanterna.gui2.EmptySpace;
+import com.googlecode.lanterna.gui2.Label;
+import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
@@ -16,6 +19,8 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.TerminalEmulatorColorConfiguration;
+import com.googlecode.lanterna.terminal.swing.TerminalEmulatorPalette;
 
 import model.MapParser;
 import model.TileSet;
@@ -28,19 +33,44 @@ public class Main {
 	
 	public static void startWindow(){
 		try{
-			Terminal terminal = new DefaultTerminalFactory().createTerminal() ;
+			//TERMINAL CONFIG
+			Terminal terminal = new DefaultTerminalFactory()
+					.setTerminalEmulatorTitle( "Donjon Map Converter " 
+							+ "version 0.1.2" )
+					.setTerminalEmulatorColorConfiguration( 
+							TerminalEmulatorColorConfiguration.newInstance( 
+									TerminalEmulatorPalette.GNOME_TERMINAL ) )
+					.createTerminal() ;
+			
+			//SCREEN CONFIG
 			Screen screen = new TerminalScreen( terminal ) ;
-			
 			screen.startScreen() ;
-			
 			final WindowBasedTextGUI textGUI = 
 					new MultiWindowTextGUI( screen ) ;
 			
+			//PANEL CONFIG
 			Panel panel = new Panel() ;
 			
+			//TITLE COMPONENT TODO:ADD VERSION CONTROL
+			panel.addComponent( new Label( "Welcome to Donjon Map Converter "
+					+ "ver 0.1.2 ! " ).setLayoutData( 
+							LinearLayout.createLayoutData( 
+									LinearLayout.Alignment.Center ) )
+					.addStyle( SGR.BLINK ) ) ;
+			
+			//DESCRIPTION COMPONENT
+			panel.addComponent( new Label( "Start by selecting a file and a "
+					+ "tileset, then press \"Convert!\"" ).setLayoutData( 
+							LinearLayout.createLayoutData( 
+									LinearLayout.Alignment.Center ) )
+					.addStyle( SGR.BOLD ) ) ;
+			
+			//EMPTY SPACE COMPONENT
+			panel.addComponent( new EmptySpace() ) ;
+			
+			//CHOOSE MAP COMPONENT
 			panel.addComponent( new Button( "Choose file to convert" , 
 					new Runnable(){
-
 				@Override
 				public void run() {
 					File input = new FileDialogBuilder()
@@ -52,12 +82,12 @@ public class Main {
 					//View.printMsgln( input.toString() ) ;
 					fileToConvert = input ;
 				}
-				
-			}) ) ;
+			}).setLayoutData( LinearLayout.createLayoutData( 
+					LinearLayout.Alignment.Center ) ) ) ;
 			
+			//CHOOSE TILESET COMPONENT
 			panel.addComponent( new Button( "Choose tileset" , 
 					new Runnable(){
-
 				@Override
 				public void run() {
 					File input = new FileDialogBuilder()
@@ -69,9 +99,10 @@ public class Main {
 					//View.printMsgln( input.toString() ) ;
 					tileSet = input ;
 				}
-				
-			}) ) ;
+			}).setLayoutData( LinearLayout.createLayoutData( 
+					LinearLayout.Alignment.Center ) ) ) ;
 			
+			//CONVERT BUTTON COMPONENT
 			panel.addComponent( new Button( "Convert!" , new Runnable(){
 
 				@Override
@@ -82,12 +113,12 @@ public class Main {
 								"Error!" , 
 								"Choose a tileset and a file to convert!" , 
 								MessageDialogButton.OK ) ;
-						if( fileToConvert == null ){
-							View.printMsgln( "File null!" ) ;
-						}
-						if( tileSet == null ){
-							View.printMsgln( "TileSet null!" ) ;
-						}
+//						if( fileToConvert == null ){
+//							View.printMsgln( "File null!" ) ;
+//						}
+//						if( tileSet == null ){
+//							View.printMsgln( "TileSet null!" ) ;
+//						}
 					}
 					else{
 						TileSet ts = new TileSet( 32 , 32 , tileSet ) ;
@@ -123,24 +154,23 @@ public class Main {
 						}
 					}
 				}
-				
-			}) ) ;
+			}).setLayoutData( LinearLayout.createLayoutData( 
+					LinearLayout.Alignment.Center ) ) ) ;
 			
+			//EXIT BUTTON COMPONENT
 			panel.addComponent( new Button( "Exit" , new Runnable(){
-
 				@Override
 				public void run() {
 					System.exit( 1 ) ;
 				}
-				
-			}) ) ;
+			}).setLayoutData( LinearLayout.createLayoutData( 
+					LinearLayout.Alignment.Center ) ) ) ;
+			
+			//WINDOW CONFIG
 			final Window window = new BasicWindow() ;
 			window.setHints( Arrays.asList( 
-					Window.Hint.FULL_SCREEN
-					, Window.Hint.NO_DECORATIONS ) ) ;
-			
+					Window.Hint.FULL_SCREEN ) ) ;
 			window.setComponent( panel ) ;
-			
 			textGUI.addWindowAndWait( window ) ;
 		}
 		catch( Exception e ) {

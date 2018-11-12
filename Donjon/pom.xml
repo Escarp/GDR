@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Donjon</groupId>
 	<artifactId>Donjon</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -27,8 +27,8 @@
 	</dependencies>
 	<build>
 		<finalName>
-  		${project.artifactId}-${project.version}-${maven.build.timestamp}
-  	</finalName>
+  			${project.artifactId}-${project.version}-${maven.build.timestamp}
+  		</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -48,7 +48,9 @@
 								</manifest>
 							</archive>
 							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
+								<descriptorRef>
+									jar-with-dependencies
+								</descriptorRef>
 							</descriptorRefs>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
