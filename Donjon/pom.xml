@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Donjon</groupId>
-	<artifactId>Donjon</artifactId>
+	<artifactId>Donjon_Map_Converter</artifactId>
 	<version>0.1.2</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+		<maven.build.timestamp.format>dd-MM-yyyy</maven.build.timestamp.format>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.univocity/univocity-parsers -->
@@ -26,8 +26,14 @@
 
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<finalName>
-  			${project.artifactId}-${project.version}-${maven.build.timestamp}
+  			${project.artifactId}_${project.version}_${maven.build.timestamp}
   		</finalName>
 		<plugins>
 			<plugin>

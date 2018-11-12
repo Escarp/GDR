@@ -1,7 +1,10 @@
 package control;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
+
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Button;
@@ -28,6 +31,9 @@ import view.View;
 
 public class Main {
 	
+	static String artifact = null ;
+	static String version = null ;
+	
 	static File fileToConvert ;
 	static File tileSet ;
 	
@@ -35,8 +41,7 @@ public class Main {
 		try{
 			//TERMINAL CONFIG
 			Terminal terminal = new DefaultTerminalFactory()
-					.setTerminalEmulatorTitle( "Donjon Map Converter " 
-							+ "version 0.1.2" )
+					.setTerminalEmulatorTitle( artifact + " " + version )
 					.setTerminalEmulatorColorConfiguration( 
 							TerminalEmulatorColorConfiguration.newInstance( 
 									TerminalEmulatorPalette.GNOME_TERMINAL ) )
@@ -52,8 +57,8 @@ public class Main {
 			Panel panel = new Panel() ;
 			
 			//TITLE COMPONENT TODO:ADD VERSION CONTROL
-			panel.addComponent( new Label( "Welcome to Donjon Map Converter "
-					+ "ver 0.1.2 ! " ).setLayoutData( 
+			panel.addComponent( new Label( "Welcome to " + artifact + " " 
+					+ version + " ! " ).setLayoutData( 
 							LinearLayout.createLayoutData( 
 									LinearLayout.Alignment.Center ) )
 					.addStyle( SGR.BLINK ) ) ;
@@ -179,6 +184,16 @@ public class Main {
 	}
 	
 	public static void main( String[] args ) {
+		final Properties properties = new Properties() ;
+		try {
+			properties.load( Main.class.getClassLoader().getResourceAsStream( 
+					"project.properties" ) ) ;
+			artifact = properties.getProperty( "artifactId" ) ;
+			version = properties.getProperty( "version" ) ;
+		} catch (IOException e) {
+			View.printErr( "Main: main" , e ) ;
+		}
+		
 		startWindow() ;
 	}
 }
