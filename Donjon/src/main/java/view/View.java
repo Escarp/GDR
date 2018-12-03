@@ -1,8 +1,10 @@
 package view;
 
+import java.awt.Desktop;
 import java.awt.Graphics ;
 import java.awt.image.BufferedImage ;
 import java.io.File ;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -20,6 +22,7 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.Window;
 import com.googlecode.lanterna.gui2.WindowBasedTextGUI;
+import com.googlecode.lanterna.gui2.dialogs.ActionListDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.FileDialogBuilder;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialogButton;
@@ -212,12 +215,35 @@ public class View {
 									mp.getMap() , 
 									ts.getTiles() ) ;
 							if( path != null ){
-								MessageDialog.showMessageDialog( 
-										textGUI , 
-										"Success!" , 
-										"Map created in: \n"
-										+ path , 
-										MessageDialogButton.OK ) ;
+								new ActionListDialogBuilder()
+								.setTitle( "Success!" )
+								.setDescription( "Map created in: \n" + path )
+								.addAction( "Open file!" , new Runnable(){
+
+									@Override
+									public void run() {
+										try {
+											Desktop.getDesktop().open( 
+													new File( path ) ) ;
+										}
+										catch( IOException e ) {
+											View.printErr( "View: startWindows:"
+													+ " actionDialog: "
+													+ "Runnable" , e ) ;
+										}
+										
+									}
+									
+								})
+								.setCloseAutomaticallyOnAction( true )
+								.build()
+								.showDialog( textGUI ) ;
+//								MessageDialog.showMessageDialog( 
+//										textGUI , 
+//										"Success!" , 
+//										"Map created in: \n"
+//										+ path ,
+//										MessageDialogButton.OK ) ;
 							}
 							else{
 								MessageDialog.showMessageDialog( 
