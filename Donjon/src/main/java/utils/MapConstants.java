@@ -49,5 +49,5 @@ public class MapConstants {
 	public static final String WALL_INNER_TOP_LEFT		= "/" ;
 	public static final String WALL_INNER_TOP_RIGHT		= ")" ;
 	public static final String WALL_INNER_BOTTOM_LEFT	= "!" ;
-	public static final String WALL_INNER_BOTTOM_RIGHT	= "£" ;
+	public static final String WALL_INNER_BOTTOM_RIGHT	= "(" ;
 }

@@ -3,21 +3,29 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Donjon</groupId>
 	<artifactId>Donjon_Map_Converter</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>
+			UTF-8
+		</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.build.timestamp.format>dd-MM-yyyy</maven.build.timestamp.format>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.univocity/univocity-parsers -->
+		<!-- 
+			https://mvnrepository.com/artifact/com.univocity/univocity-parsers 
+		-->
 		<dependency>
 			<groupId>com.univocity</groupId>
 			<artifactId>univocity-parsers</artifactId>
 			<version>2.7.6</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.googlecode.lanterna/lanterna -->
+		<!-- 
+			https://mvnrepository.com/artifact/com.googlecode.lanterna/lanterna 
+		-->
 		<dependency>
 			<groupId>com.googlecode.lanterna</groupId>
 			<artifactId>lanterna</artifactId>
